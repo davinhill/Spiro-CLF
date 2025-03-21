@@ -1,0 +1,46 @@
+# Final model parameters for new submission 11.4.24
+
+# Training
+num_epochs: 600
+initial_lr: 0.01 # initial learning rate
+scheduler_gamma: 0.5 # multiplicative factor for reducing learning rate upon plateau
+sample_size: -1 # used to subsample validation set for val accuracy
+calc_test_accy: False 
+
+# Model
+model: cnn
+num_layers: 6
+hidden_units: 300
+kernel_size: 35
+num_output_feat: 50
+num_linear_units: 200 # latent representation size
+temperature: 0.05
+weight_norm: True
+conv_masking: True
+max_length: 500
+
+# Dataset
+dataset: ukbb
+files_path: ./Files
+data_path: ./Files/3blows_with_max_rejection_v2.csv
+id_path: ./Files/quality_train_test_ids/ukbb/
+train_idx_list: train
+val_idx_list: val
+blow_filter: none
+eob_method: max
+target: binary_0.7_threshold
+batch_size: 512
+source_time_interval: 10 # time interval (ms) of source data features
+data_downsample_factor: 6 # downsample factor for time interval
+feature_volume_interval: 50 # volume interval for flow-volume transformation
+transform: # list of transformations to include during training
+  - 0 # blow sampling
+  - 1 # flow-time transformation
+  - 2 # flow-volume transformation
+transform_p: 0.5 # probability of each transformation
+dataloader_workers: 8
+append_transform_flag: 1 # append transformation type (binary encoding) to sample during training
+
+# Tracking
+wandb_logging: True # log results to Weights and Biases
+verbose: False
